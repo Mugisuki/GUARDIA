@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CV Scolaire — Ton Nom</title>
+  <meta name="description" content="CV scolaire moderne (bleu & blanc), responsive, accessible et imprimable A4.">
+
+  <style>
+    /* =================== Thème scolaire (bleu clair & blanc) =================== */
+    :root{
+      --bg: #f7fbff;            /* fond page */
+      --panel: #ffffff;         /* cartes/blocs */
+      --text: #0b1726;          /* texte principal */
+      --muted:#60728a;          /* texte secondaire */
+      --line: #e3edf7;          /* bordures */
+      --accent: #2563eb;        /* bleu académique */
+      --accent-2:#38bdf8;       /* bleu clair */
+      --radius: 14px;
+      --shadow: 0 10px 32px rgba(12, 23, 40, .06);
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+    [data-theme="dark"]{
+      --bg:#0b1320; --panel:#0f1a2b; --text:#e6edf5; --muted:#96a8bf; --line:#1e2a3a;
+      --shadow: 0 10px 26px rgba(0,0,0,.4);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.65 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 90% -10%, rgba(56,189,248,.15), transparent 60%),
+        radial-gradient(900px 500px   at -10% 10%, rgba(37, 99,235,.12), transparent 60%),
+        var(--bg);
+    }
+    img{max-width:100%; display:block}
+    a{color:inherit; text-decoration:none}
+
+    .wrap{width:min(1000px, 94%); margin-inline:auto; padding:18px 0 56px}
+
+    /* =================== En-tête =================== */
+    .appbar{
+      position:sticky; top:0; z-index:40;
+      background:rgba(255,255,255,.75);
+      backdrop-filter:saturate(140%) blur(10px);
+      -webkit-backdrop-filter:saturate(140%) blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    [data-theme="dark"] .appbar{background:rgba(15,26,43,.7)}
+    .appbar-inner{display:flex; align-items:center; justify-content:space-between; padding:10px 0}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:800; letter-spacing:.2px}
+    .brand .mark{width:26px; height:26px; border-radius:6px; background:linear-gradient(135deg, var(--accent), var(--accent-2))}
+    .actions{display:flex; gap:8px}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+      padding:8px 12px; border-radius:10px; font-weight:600; color:inherit;
+      background:var(--panel); border:1px solid var(--line); transition:background .15s var(--ease), border-color .15s var(--ease);
+    }
+    .btn:hover{background:#eef5ff; border-color:#d5e6ff}
+    [data-theme="dark"] .btn:hover{background:#0f2038}
+    .btn--primary{border-color:transparent; color:#fff; background:linear-gradient(135deg, var(--accent), var(--accent-2))}
+
+    /* =================== Layout =================== */
+    .grid{display:grid; grid-template-columns: 300px 1fr; gap:18px; margin-top:16px}
+    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
+
+    .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .side{padding:18px; position:sticky; top:70px; align-self:start}
+    .main{padding:18px; display:grid; gap:16px}
+
+    /* =================== Sidebar =================== */
+    .photo{width:104px; height:104px; border-radius:50%; object-fit:cover; border:2px solid var(--line)}
+    .name{font-size:26px; font-weight:800; letter-spacing:-.01em; margin-top:8px}
+    .role{color:var(--muted); font-weight:600; min-height:1.4em}
+
+    .section{padding:14px; border:1px solid var(--line); border-radius:12px; background:transparent}
+    .list{list-style:none; padding:0; margin:8px 0; display:grid; gap:8px}
+    .chip{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:999px; background:#eef6ff}
+    [data-theme="dark"] .chip{background:#11223b}
+
+    .skill{display:grid; grid-template-columns:140px 1fr; gap:10px; align-items:center}
+    .bar{height:8px; background:#edf2f7; border-radius:999px; overflow:hidden; border:1px solid var(--line)}
+    .bar>span{display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); width:0%}
+
+    /* =================== Contenu principal =================== */
+    h2{margin:0 0 6px; font-size:18px; letter-spacing:.1px}
+    .muted{color:var(--muted)}
+
+    .kpis{display:grid; gap:10px}
+    .kpi{display:grid; grid-template-columns:auto 1fr; gap:10px 12px; align-items:start}
+    .kpi strong{font-weight:700}
+
+    /* Timeline académique */
+    .timeline{position:relative; display:grid; gap:12px; padding-left:18px}
+    .timeline:before{content:""; position:absolute; left:4px; top:4px; bottom:4px; width:2px; background:linear-gradient(var(--accent), var(--accent-2))}
+    .entry{position:relative; padding-left:12px}
+    .entry .dot{position:absolute; left:-2px; top:6px; width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent-2))}
+    .entry h3{margin:0 0 2px; font-size:16px}
+    .entry small{color:var(--muted)}
+
+    /* Révélations au scroll (douces) */
+    [data-reveal]{opacity:0; transform:translateY(10px); transition:opacity .45s var(--ease), transform .45s var(--ease)}
+    [data-reveal].in{opacity:1; transform:none}
+
+    /* Pied de page */
+    footer{color:var(--muted); text-align:center; padding:26px 0}
+
+    /* Impression A4 */
+    @media print{
+      :root{--bg:#fff; --text:#111; --muted:#555; --panel:#fff; --line:#ddd; --shadow:none}
+      body{background:#fff}
+      .appbar, .actions, .btn{display:none !important}
+      .grid{grid-template-columns:1fr 2.2fr}
+      .wrap{width:210mm; margin:0 auto; padding:0}
+      .card{box-shadow:none}
+      a{text-decoration:underline}
+    }
+
+    /* Accessibilité */
+    @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important} }
+  </style>
+</head>
+<body>
+  <!-- En-tête fixe -->
+  <div class="appbar">
+    <div class="wrap appbar-inner">
+      <div class="brand"><span class="mark" aria-hidden="true"></span><span>CV Scolaire — Ton Nom</span></div>
+      <div class="actions">
+        <button id="copyEmail" class="btn" aria-label="Copier l'email">📋 Copier l'email</button>
+        <button id="theme" class="btn" aria-label="Changer le thème">🌓 Thème</button>
+        <button class="btn btn--primary" onclick="window.print()" aria-label="Imprimer">🖨️ PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Corps -->
+  <main class="wrap grid">
+    <!-- Colonne gauche : identité & compétences -->
+    <aside class="card side" data-reveal>
+      <div style="display:grid; gap:12px; justify-items:start">
+        <img class="photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><rect width='100%' height='100%' fill='%23e6f0ff'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%235b6c86' font-family='Arial' font-size='18'>Photo</text></svg>" alt="Photo de profil">
+        <div>
+          <div class="name">Ton Nom</div>
+          <div class="role" id="role">Étudiant — Formation (ex : Bachelor Informatique & Cyber)</div>
+        </div>
+      </div>
+
+      <section class="section" style="margin-top:12px">
+        <h2>Contact</h2>
+        <ul class="list">
+          <li id="emailVal">📧 <a href="mailto:email@exemple.com">email@exemple.com</a></li>
+          <li>🔗 <a href="#">github.com/tonprofil</a></li>
+          <li>💼 <a href="#">linkedin.com/in/tonprofil</a></li>
+          <li>📍 Ville, FR</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Compétences</h2>
+        <div class="skill"><span class="muted">HTML/CSS</span><div class="bar"><span data-width="88%"></span></div></div>
+        <div class="skill"><span class="muted">Lua / Roblox</span><div class="bar"><span data-width="82%"></span></div></div>
+        <div class="skill"><span class="muted">Réseaux (VLAN/ACL)</span><div class="bar"><span data-width="74%"></span></div></div>
+        <div class="skill"><span class="muted">Sécurité Web</span><div class="bar"><span data-width="70%"></span></div></div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px">
+          <span class="chip">Git</span><span class="chip">pfSense</span><span class="chip">MITRE ATT&CK</span><span class="chip">Adobe Suite</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Langues</h2>
+        <ul class="list">
+          <li>🇫🇷 Français — Natif</li>
+          <li>🇬🇧 Anglais — Intermédiaire+</li>
+        </ul>
+      </section>
+    </aside>
+
+    <!-- Colonne droite : contenu académique -->
+    <section class="card main" data-reveal>
+      <section class="section">
+        <h2>Profil</h2>
+        <p class="muted">
+          Présentation courte (2–3 lignes) orientée études : ton domaine (dev, réseau, cyber),
+          ta manière de travailler (rigueur, curiosité, autonomie) et ce que tu apportes en projet.
+        </p>
+      </section>
+
+      <section class="section" data-reveal>
+        <h2>Formation</h2>
+        <div class="timeline">
+          <article class="entry">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Bachelor Informatique & Cybersécurité</h3>
+            <small>Établissement (ex : Guardia School) • 2025 – 2028</small>
+            <ul class="list" style="margin-top:6px">
+              <li>Réseaux (VLAN, ACL, DHCP), sécurité (XSS/CWE), systèmes.</li>
+              <li>Projets encadrés, oraux techniques, documentation.</li>
+            </ul>
+          </article>
+
+          <article class="entry">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Parcours design / pré-presse</h3>
+            <small>Lycée • 2022</small>
+            <ul class="list" style="margin-top:6px">
+              <li>Mise en page, préparation BAT, SRA3, affiches/flyers.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" data-reveal>
+        <h2>Projets scolaires</h2>
+        <div class="kpis">
+          <div class="kpi">
+            <span>🧪</span>
+            <div>
+              <strong>Réseau & Sécurité (GNS3 / pfSense)</strong><br>
+              <span class="muted">Topologie VLAN, trunk, ACL, DMZ, proxy & supervision. Rapport + soutenance.</span>
+            </div>
+          </div>
+          <div class="kpi">
+            <span>🎮</span>
+            <div>
+              <strong>Jeu Roblox (Lua)</strong><br>
+              <span class="muted">Items, FX, équilibrage, boutique (GamePass/DevProducts), UI responsive.</span>
+            </div>
+          </div>
+          <div class="kpi">
+            <span>🛡️</span>
+            <div>
+              <strong>Atelier XSS & Auth JS</strong><br>
+              <span class="muted">Lecture de code, exploitation pédagogique, recommandations (escape/CSP).</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-reveal>
+        <h2>Expériences</h2>
+        <div class="timeline">
+          <article class="entry">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Développement Roblox — Projet perso</h3>
+            <small>2024 – Présent</small>
+            <ul class="list" style="margin-top:6px">
+              <li>Programmation Lua, gestion des outils, animations et collisions.</li>
+              <li>Optimisation UI, économie interne, tests et corrections.</li>
+            </ul>
+          </article>
+
+          <article class="entry">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Stage — Graphisme / Pré-presse</h3>
+            <small>Mairie de Garches • 2022</small>
+            <ul class="list" style="margin-top:6px">
+              <li>Mise en page, normalisation fichiers, contrôle qualité imprimés.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" data-reveal>
+        <h2>Centres d’intérêt</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:6px">
+          <span class="chip">Game dev</span>
+          <span class="chip">CTF / Root-Me</span>
+          <span class="chip">Design graphique</span>
+          <span class="chip">Minecraft</span>
+        </div>
+      </section>
+
+      <section class="section" data-reveal>
+        <h2>Références</h2>
+        <p class="muted">Disponibles sur demande.</p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="wrap">© <span id="year"></span> — CV scolaire (bleu & blanc)</footer>
+
+  <script>
+    // Année
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Thème clair/sombre (clair par défaut)
+    const applyTheme = (m)=> m==='dark'
+      ? document.documentElement.setAttribute('data-theme','dark')
+      : document.documentElement.removeAttribute('data-theme');
+    applyTheme(localStorage.getItem('school-theme') || '');
+    document.getElementById('theme').onclick = ()=>{
+      const isDark = document.documentElement.getAttribute('data-theme')==='dark';
+      const next = isDark ? '' : 'dark';
+      localStorage.setItem('school-theme', next);
+      applyTheme(next);
+    };
+
+    // Révélation au scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: .14 });
+    document.querySelectorAll('[data-reveal]').forEach(el=> io.observe(el));
+
+    // Barres de compétences
+    const bars = document.querySelectorAll('.bar > span[data-width]');
+    const ioBars = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ const el=e.target; el.style.width = el.getAttribute('data-width'); ioBars.unobserve(el); }
+      });
+    }, { threshold:.4 });
+    bars.forEach(b=> ioBars.observe(b));
+
+    // Copier l'email
+    document.getElementById('copyEmail').addEventListener('click', async ()=>{
+      const emailNode = document.querySelector('#emailVal a');
+      try{ await navigator.clipboard.writeText(emailNode.textContent.trim()); }catch{}
+    });
+  </script>
+</body>
+</html>

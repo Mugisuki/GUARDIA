@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CV — Ton Nom</title>
+  <meta name="description" content="CV moderne, responsive et imprimable (A4) — fichier HTML autonome." />
+
+  <style>
+    /* ===== Thème / Design tokens ===== */
+    :root{
+      --bg: #0b0f14;
+      --panel: rgba(255,255,255,.06);
+      --text: #e9eef6;
+      --muted:#a7b2c3;
+      --line: rgba(255,255,255,.14);
+      --accent: #7c5cff;
+      --accent2:#17c6ff;
+      --radius: 16px;
+      --shadow: 0 18px 60px rgba(0,0,0,.28);
+    }
+    [data-theme="light"]{
+      --bg:#f8fafc; --panel:#ffffff; --text:#0b1020; --muted:#5a6476;
+      --line: rgba(0,0,0,.12); --shadow:0 12px 40px rgba(30,35,50,.08);
+    }
+
+    /* ===== Reset/structure ===== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.65 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 700px at -10% 10%, rgba(23,198,255,.12), transparent 60%),
+        radial-gradient(1100px 800px at 90% -10%, rgba(124,92,255,.13), transparent 60%),
+        linear-gradient(180deg, #0a0c12, var(--bg));
+    }
+    img{max-width:100%; display:block}
+    a{color:inherit; text-decoration:none}
+
+    .wrap{width:min(1100px,94%); margin-inline:auto; padding:20px 0 60px}
+
+    /* ===== Header (nom + actions) ===== */
+    .appbar{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter:saturate(160%) blur(10px);
+      -webkit-backdrop-filter:saturate(160%) blur(10px);
+      background:linear-gradient(180deg, rgba(10,12,18,.6), transparent);
+      border-bottom:1px solid var(--line);
+    }
+    [data-theme="light"] .appbar{background:rgba(255,255,255,.66)}
+    .appbar-inner{display:flex; align-items:center; justify-content:space-between; padding:12px 0}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px}
+    .brand .logo{width:28px; height:28px}
+    .actions{display:flex; gap:10px}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 14px; border-radius:999px; border:1px solid var(--line);
+      background:transparent; color:inherit; cursor:pointer; font-weight:600;
+    }
+    .btn--primary{border:none; color:#fff; background:linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow:0 8px 26px rgba(124,92,255,.35)}
+    .btn:hover{transform:translateY(-1px)}
+
+    /* ===== Layout principal ===== */
+    .grid{display:grid; grid-template-columns: 320px 1fr; gap:22px; margin-top:18px}
+    @media (max-width: 940px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .side{padding:22px; position:sticky; top:76px; align-self:start}
+    .main{padding:22px; display:grid; gap:22px}
+
+    /* ===== Sidebar ===== */
+    .photo{
+      width:112px; height:112px; border-radius:50%; object-fit:cover;
+      border:2px solid var(--line);
+    }
+    .name{font-size:28px; font-weight:800; letter-spacing:-.02em; margin-top:8px}
+    .role{color:var(--muted); font-weight:600}
+    .pill{display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); margin:6px 6px 0 0}
+    .list{list-style:none; padding:0; margin:8px 0; display:grid; gap:8px}
+    .block + .block{margin-top:16px}
+
+    .skills{display:grid; grid-template-columns:1fr; gap:10px}
+    .bar{background:rgba(255,255,255,.07); border-radius:10px; overflow:hidden; border:1px solid var(--line); height:10px}
+    .bar>span{display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2))}
+
+    /* ===== Sections ===== */
+    h2{margin:0 0 6px; font-size:20px; letter-spacing:-.01em}
+    .muted{color:var(--muted)}
+    .section{padding:18px; border:1px solid var(--line); border-radius:var(--radius)}
+    .kpis{display:grid; gap:12px}
+    .kpi{display:grid; grid-template-columns:auto 1fr; gap:10px 12px; align-items:start}
+    .kpi strong{font-weight:700}
+
+    /* ===== Timeline ===== */
+    .timeline{position:relative; display:grid; gap:14px; padding-left:18px}
+    .timeline:before{content:""; position:absolute; left:4px; top:4px; bottom:4px; width:2px; background:linear-gradient(var(--accent), var(--accent2))}
+    .entry{position:relative; padding-left:12px}
+    .entry .dot{position:absolute; left:-2px; top:6px; width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow:0 0 0 3px rgba(255,255,255,.07)}
+    .entry h3{margin:0 0 2px; font-size:16px}
+    .entry small{color:var(--muted)}
+
+    /* ===== Footer ===== */
+    footer{color:var(--muted); text-align:center; padding:28px 0}
+
+    /* ===== Impression A4 ===== */
+    @media print{
+      :root{--bg:#fff; --panel:#fff; --text:#111; --muted:#444; --line:#ccc; --shadow:none}
+      body{background:#fff}
+      .appbar, .btn, .btns-print-hide{display:none !important}
+      .grid{grid-template-columns:1fr 2.2fr}
+      .wrap{width:210mm; padding:0; margin:0 auto}
+      .card{box-shadow:none}
+      a{text-decoration:underline}
+    }
+  </style>
+</head>
+<body>
+  <!-- Barre supérieure -->
+  <div class="appbar">
+    <div class="wrap appbar-inner">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#7c5cff"/><stop offset="100%" stop-color="#17c6ff"/>
+          </linearGradient></defs>
+          <path d="M12 2l8 5v10l-8 5-8-5V7l8-5Z" stroke="url(#g)" stroke-width="2"/>
+          <circle cx="12" cy="12" r="2.8" fill="url(#g)"/>
+        </svg>
+        <span>CV — Ton Nom</span>
+      </div>
+      <div class="actions">
+        <button id="theme" class="btn" aria-label="Changer le thème">🌓 Thème</button>
+        <button class="btn btn--primary" onclick="window.print()" aria-label="Imprimer">🖨️ Imprimer / PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu -->
+  <main class="wrap grid">
+    <!-- Colonne gauche -->
+    <aside class="card side">
+      <div class="block" style="display:grid; gap:12px; justify-items:start">
+        <img class="photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23bbb' font-family='Arial' font-size='20'>Ta photo</text></svg>" alt="Photo de profil" />
+        <div>
+          <div class="name">Ton Nom</div>
+          <div class="role">Intitulé du poste — Spécialité</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Contact</h2>
+        <ul class="list">
+          <li>📧 <a href="mailto:email@exemple.com">email@exemple.com</a></li>
+          <li>🔗 <a href="#">github.com/tonprofil</a></li>
+          <li>💼 <a href="#">linkedin.com/in/tonprofil</a></li>
+          <li>📍 Ville, FR</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2>Compétences</h2>
+        <div class="skills">
+          <div>
+            <div class="muted">HTML/CSS</div>
+            <div class="bar" aria-label="Niveau HTML/CSS"><span style="width:85%"></span></div>
+          </div>
+          <div>
+            <div class="muted">Lua / Roblox</div>
+            <div class="bar"><span style="width:80%"></span></div>
+          </div>
+          <div>
+            <div class="muted">Réseaux (VLAN, ACL)</div>
+            <div class="bar"><span style="width:70%"></span></div>
+          </div>
+          <div>
+            <div class="muted">Sécurité Web (XSS/CWE)</div>
+            <div class="bar"><span style="width:65%"></span></div>
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <span class="pill">Git</span>
+          <span class="pill">pfSense</span>
+          <span class="pill">MITRE ATT&CK</span>
+          <span class="pill">UX Basics</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Langues</h2>
+        <ul class="list">
+          <li>🇫🇷 Français — Natif</li>
+          <li>🇬🇧 Anglais — Intermédiaire+</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2>Intérêts</h2>
+        <div>
+          <span class="pill">Game Dev</span>
+          <span class="pill">CTF / Root-Me</span>
+          <span class="pill">Design</span>
+          <span class="pill">Minecraft</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Colonne droite -->
+    <section class="card main">
+      <section class="section">
+        <h2>À propos</h2>
+        <p class="muted">
+          Phrase d’accroche de 2–3 lignes : tes forces, ton objectif (stage/alternance/emploi),
+          ton domaine (dev, réseau, cyber), et ce que tu apportes à une équipe.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Expériences</h2>
+        <div class="timeline">
+          <article class="entry">
+            <span class="dot" aria-hidden="true"></span>
+            <h3>Développeur Roblox — Projet « Brainrot-style »</h3>
+            <small>Indépendant • 2024 – Présent</small>
+            <ul class="list" style="margin-top:6px">
+              <li>Implémentation d’items (Tools), animations, hitbox/Ragdoll.</li>
+              <li>Shop (GamePass/DevProducts), équilibrage, optimisation UI.</li>
+            </ul>
+          </article>
+
+          <article class="entry">
+            <span class="dot"></span>
+            <h3>Projet Réseau & Sécurité — GNS3 / pfSense</h3>
+            <small>Équipe de 4 • 2025</small>
+            <ul class="list" style="margin-top:6px">
+              <li>VLAN, trunk, DHCP, ACL, DMZ, proxy & supervision.</li>
+            </ul>
+          </article>
+
+          <article class="entry">
+            <span class="dot"></span>
+            <h3>Graphisme & Pré-presse (Stage)</h3>
+            <small>Mairie de Garches • 2022</small>
+            <ul class="list" style="margin-top:6px">
+              <li>Mise en page, SRA3, BAT, affiches/flyers.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Projets sélectionnés</h2>
+        <div class="kpis">
+          <div class="kpi">
+            <span>🎮</span>
+            <div>
+              <strong>« Steal-a-Brainrot » Custom</strong><br>
+              <span class="muted">Items (Ban Hammer, Laser Gun…), FX, shop, passes.</span>
+            </div>
+          </div>
+          <div class="kpi">
+            <span>🛡️</span>
+            <div>
+              <strong>Lab XSS & Auth JS vulnérable</strong><br>
+              <span class="muted">Analyse obfuscation, exploitation pédagogique, contre-mesures (escape/CSP).</span>
+            </div>
+          </div>
+          <div class="kpi">
+            <span>🌐</span>
+            <div>
+              <strong>Server Minecraft moddé</strong><br>
+              <span class="muted">Gestion communauté, packs Create/automation, optimisation.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Formation</h2>
+        <ul class="list">
+          <li><strong>Bachelor Informatique & Cyber</strong> — Guardia School (2025-2028)</li>
+          <li><strong>Terminale RPIP</strong> — Pré-presse / design (2022)</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Compétences & Certifs</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:8px">
+          <span class="pill">CWE-79 (XSS)</span>
+          <span class="pill">MITRE ATT&CK (tactiques)</span>
+          <span class="pill">pfSense / VLAN / ACL</span>
+          <span class="pill">Git / GitHub</span>
+          <span class="pill">Adobe Suite</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Références</h2>
+        <p class="muted">Disponibles sur demande.</p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="wrap">© <span id="year"></span> — CV HTML autonome</footer>
+
+  <!-- Microdonnées (Schema.org/Person) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Ton Nom",
+    "jobTitle":"Intitulé du poste",
+    "email":"mailto:email@exemple.com",
+    "address":{"@type":"PostalAddress","addressCountry":"FR"},
+    "url":"https://ton-site.example",
+    "sameAs":[
+      "https://github.com/tonprofil",
+      "https://www.linkedin.com/in/tonprofil/"
+    ]
+  }
+  </script>
+
+  <script>
+    // Année
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Thème clair/sombre
+    const saved = localStorage.getItem('cv-theme');
+    const apply = m => m==='light'
+      ? document.documentElement.setAttribute('data-theme','light')
+      : document.documentElement.removeAttribute('data-theme');
+    apply(saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light':'dark'));
+    document.getElementById('theme').onclick = () => {
+      const light = document.documentElement.getAttribute('data-theme')==='light';
+      const next = light ? 'dark' : 'light';
+      localStorage.setItem('cv-theme', next); apply(next);
+    };
+  </script>
+</body>
+</html>
