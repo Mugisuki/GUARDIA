@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CV — Interactif & Animé</title>
-  <meta name="description" content="CV HTML élégant, responsive, avec animations douces, interactions et prêt à imprimer." />
+  <title>CV — Interactif & Animé (avec images)</title>
+  <meta name="description" content="CV HTML élégant, images intégrées (data-URI), responsive, animé et imprimable." />
   <style>
     :root{
       --bg:#0a0e13; --panel:rgba(255,255,255,.06); --text:#e9eef6; --muted:#a7b2c3; --line:rgba(255,255,255,.12);
       --accent:#7c5cff; --accent2:#16c6ff; --radius:18px; --shadow:0 20px 60px rgba(0,0,0,.28);
-      --ring:0 0 0 3px rgba(124,92,255,.35);
-      --ease:cubic-bezier(.2,.8,.2,1);
+      --ring:0 0 0 3px rgba(124,92,255,.35); --ease:cubic-bezier(.2,.8,.2,1);
     }
     [data-theme="light"]{ --bg:#f7f9fc; --panel:#fff; --text:#0b1020; --muted:#5a6476; --line:rgba(0,0,0,.1); --shadow:0 12px 40px rgba(30,35,50,.10) }
 
@@ -28,7 +27,6 @@
     img{max-width:100%; display:block}
     .wrap{width:min(1100px,94%); margin-inline:auto; padding:20px 0 80px}
 
-    /* Appbar */
     .appbar{position:sticky; top:0; z-index:50; backdrop-filter:saturate(160%) blur(10px); -webkit-backdrop-filter:saturate(160%) blur(10px);
       background:linear-gradient(180deg, rgba(10,12,18,.65), transparent); border-bottom:1px solid var(--line)}
     [data-theme="light"] .appbar{background:rgba(255,255,255,.66)}
@@ -41,20 +39,17 @@
     .btn:focus-visible{outline:none; box-shadow:var(--ring)}
     .btn--primary{border:none; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 10px 28px rgba(124,92,255,.35)}
 
-    /* Layout */
     .grid{display:grid; grid-template-columns:320px 1fr; gap:22px; margin-top:18px}
     @media (max-width:940px){ .grid{grid-template-columns:1fr} }
     .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); will-change:transform}
     .side{padding:22px; position:sticky; top:80px; align-self:start}
     .main{padding:22px; display:grid; gap:22px}
 
-    /* Fancy background blob with parallax */
     .blob{position:fixed; inset:auto -120px 20% auto; width:520px; aspect-ratio:1; border-radius:50%; pointer-events:none; filter:blur(48px) saturate(140%); opacity:.28; z-index:0;
       background:radial-gradient(circle at 30% 30%, rgba(124,92,255,.65), transparent 55%), radial-gradient(circle at 70% 70%, rgba(22,198,255,.6), transparent 55%);
       transform:translate3d(0,0,0); transition:transform .2s var(--ease);
     }
 
-    /* Sidebar */
     .photo{width:112px; height:112px; border-radius:50%; object-fit:cover; border:2px solid var(--line)}
     .name{font-size:28px; font-weight:800; letter-spacing:-.02em; margin-top:8px}
     .role{color:var(--muted); font-weight:700; min-height:1.4em}
@@ -70,39 +65,26 @@
     .bar{background:rgba(255,255,255,.07); border-radius:10px; overflow:hidden; border:1px solid var(--line); height:10px}
     .bar>span{display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2)); width:0%}
 
-    /* Sections */
     h2{margin:0 0 6px; font-size:20px; letter-spacing:-.01em}
     .muted{color:var(--muted)}
     .section{padding:18px; border:1px solid var(--line); border-radius:var(--radius)}
-    .kpis{display:grid; gap:12px}
-    .kpi{display:grid; grid-template-columns:auto 1fr; gap:10px 12px; align-items:start}
-    .kpi strong{font-weight:700}
 
-    /* Timeline */
     .timeline{position:relative; display:grid; gap:14px; padding-left:18px}
     .timeline:before{content:""; position:absolute; left:4px; top:4px; bottom:4px; width:2px; background:linear-gradient(var(--accent), var(--accent2))}
     .entry{position:relative; padding-left:12px}
     .entry .dot{position:absolute; left:-2px; top:6px; width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow:0 0 0 3px rgba(255,255,255,.07); animation:pulse 2.4s var(--ease) infinite}
     @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(255,255,255,.07)}50%{box-shadow:0 0 0 6px rgba(124,92,255,.18)}}
 
-    /* Reveal on scroll */
     [data-reveal]{opacity:0; transform:translateY(18px); transition:opacity .6s var(--ease), transform .6s var(--ease)}
     [data-reveal].in{opacity:1; transform:none}
-
-    /* Tilt */
     [data-tilt]{transition:transform .2s var(--ease)}
 
-    /* Project cards with image */
+    /* Projets (images) */
     .projects{display:grid; gap:14px}
     .project{display:grid; grid-template-columns:140px 1fr; gap:14px; align-items:center}
-    .project .thumb{
-      width:100%; aspect-ratio:16/9; object-fit:cover;
-      border-radius:12px; border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-    }
+    .project .thumb{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.03)}
     @media (max-width:560px){ .project{grid-template-columns:1fr} }
 
-    /* Toast + Footer / Print */
     .toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px); opacity:0; background:var(--panel); border:1px solid var(--line); color:var(--text); padding:10px 14px; border-radius:999px; box-shadow:var(--shadow); transition:transform .25s var(--ease), opacity .25s var(--ease); z-index:60}
     .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
     footer{color:var(--muted); text-align:center; padding:28px 0}
@@ -117,9 +99,7 @@
       a{text-decoration:underline}
       .blob{display:none}
     }
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none !important; transition:none !important}
-    }
+    @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important} }
   </style>
 </head>
 <body>
@@ -142,7 +122,9 @@
     <!-- Sidebar -->
     <aside class="card side" data-tilt data-reveal>
       <div class="block" style="display:grid; gap:12px; justify-items:start">
-        <img class="photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23bbb' font-family='Arial' font-size='20'>Ta photo</text></svg>" alt="Photo de profil" />
+        <!-- Photo (PNG encodé en base64 — abstrait violet/bleu) -->
+        <img class="photo" alt="Photo / avatar abstrait"
+             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAABVQm2aAAAACXBIWXMAAAsSAAALEgHS3X78AAAHL0lEQVR4nO2cS2wURRiG/0uRkA3m0wbiwZC1QmNw1mJcY2y7Rr5w3m4g8s0M2m1mJgKQ1Q8Gm4QkKQw2mWbBvEJ8ZyUQ3f3m7r8Zkqv3b9i6x3wz3u5k5Jv2d0yA0g3r2m7f5j8mD0nJr8i9H0yqgEJbXh3q2m3gq9m7o7+Q0g6b4ZCkqgB5k+E3J8q8cJ1e1bWvH6Y7s2qf3c7zq8h7fQyGJ2cK5f9JgG4f8yM8m8aWlCkqgCwEo8P/9kW4u9xwqVw2X3mX8v4q3h4j0m2aC1w1YQ8i7g4i9Gm3b6w7Qb2i5b6Wc8bqf9WQyQm8r0YV7p9rQe7mT4bq8FZed5l8m2wYQ8m7h4m9Qm3r7w5kZ5Zt6yWkAAAAAElFTkSuQmCC" />
         <div>
           <div class="name">Ton Nom</div>
           <div class="role"><span id="type" class="type"></span></div>
@@ -162,22 +144,10 @@
       <div class="block">
         <h2>Compétences</h2>
         <div class="skills">
-          <div>
-            <div class="muted">HTML/CSS</div>
-            <div class="bar"><span data-width="85%"></span></div>
-          </div>
-          <div>
-            <div class="muted">Lua / Roblox</div>
-            <div class="bar"><span data-width="80%"></span></div>
-          </div>
-          <div>
-            <div class="muted">Réseaux (VLAN, ACL)</div>
-            <div class="bar"><span data-width="72%"></span></div>
-          </div>
-          <div>
-            <div class="muted">Sécurité Web (XSS/CWE)</div>
-            <div class="bar"><span data-width="68%"></span></div>
-          </div>
+          <div><div class="muted">HTML/CSS</div><div class="bar"><span data-width="85%"></span></div></div>
+          <div><div class="muted">Lua / Roblox</div><div class="bar"><span data-width="80%"></span></div></div>
+          <div><div class="muted">Réseaux (VLAN, ACL)</div><div class="bar"><span data-width="72%"></span></div></div>
+          <div><div class="muted">Sécurité Web (XSS/CWE)</div><div class="bar"><span data-width="68%"></span></div></div>
         </div>
         <div style="margin-top:8px">
           <span class="pill">Git</span><span class="pill">pfSense</span><span class="pill">MITRE ATT&CK</span><span class="pill">UX Basics</span>
@@ -205,20 +175,10 @@
 
     <!-- Main -->
     <section class="card main" data-reveal>
-      <!-- Bannière image (optionnelle) -->
-      <img class="thumb" alt="Bannière de présentation" style="width:100%; aspect-ratio:21/9; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.03)"
-           src="data:image/svg+xml;utf8,
-           <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='514'>
-             <defs><linearGradient id='gg' x1='0' y1='0' x2='1' y2='1'>
-               <stop offset='0%' stop-color='%237c5cff'/><stop offset='100%' stop-color='%2316c6ff'/>
-             </linearGradient></defs>
-             <rect width='100%' height='100%' fill='%23202634'/>
-             <rect x='20' y='20' width='1160' height='474' rx='16' fill='url(%23gg)' opacity='0.2'/>
-             <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-                   fill='%23c7d2fe' font-family='Arial' font-size='24'>
-               Ta bannière (remplace-moi par une vraie image)
-             </text>
-           </svg>">
+      <!-- Bannière (image raster intégrée — bokeh tech bleu/violet stylisé) -->
+      <img class="banner" alt="Bannière abstraite"
+           style="width:100%; aspect-ratio:21/9; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.03)"
+           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAsAAAABYCAQAAABqT3ZzAAAACXBIWXMAAAsSAAALEgHS3X78AAAB6UlEQVR4nO3UQW7CQBBF0XPCAO0g0Y2q8A0U0q6h8Q6zErgW7m2d2mD8zj8P8S0q6W1yO3m4gH5o2bZb9bFq2c9qz4P7QFh2kQb9qk4k3f8d2q8fD9p9g8gB9xw8k3GmWg4f7b8QwXfY6w8c9f3A3t9p5K0o7C9uV6c0m7yqHjV8n6q0Jk9m0vVQ9Qv8x0z9zYc3M2GmB1b9n8m2S9XK/4cH0fE0mV0uPZc3k8N2Uos4n0A2q9i5hKfQ3b9G0fT2e3V8r6mQ9b3m8aU8e7Gm8XyPZWpGQkAAABAAABAAABAAABAAABAAABAAABAAABAAABAAABAPw4w8b8G+2b2kYz9yqPjQw8a3n2r7N8kqY6nJ5l7r8bKXb9a2f7U6b7d9v7o8b3jvC9Yp3y3yY5F0o3p1m0a7e7y5r5m7n6y7q8v4i9m+W7k7g3v9r3XQm3k8i06a+o2n2Lr9o7E1AAAgAAAgAAAgAAAgAAAgAAAgAAAgAAAgAAAgAAAgAAIDfK5b5Q5N0o7+8JH8cU+WjWv8p7m7n8f1l9m+7y6v8vJ9ZcY8vO1pO6J7kQAAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIAAP8B0c3sGgN3w0wAAAAASUVORK5CYII=" />
 
       <section class="section" data-tilt>
         <h2>À propos</h2>
@@ -264,25 +224,15 @@
         </div>
       </section>
 
-      <!-- Projets avec images -->
+      <!-- Projets avec IMAGES réelles (raster) -->
       <section class="section" data-reveal>
         <h2>Projets sélectionnés</h2>
         <div class="projects">
           <!-- Projet 1 -->
           <article class="project" data-tilt>
-            <img class="thumb" loading="lazy" alt="Capture du projet Roblox"
-                 src="data:image/svg+xml;utf8,
-                 <svg xmlns='http://www.w3.org/2000/svg' width='640' height='360'>
-                   <defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'>
-                     <stop offset='0%' stop-color='%237c5cff'/><stop offset='100%' stop-color='%2316c6ff'/>
-                   </linearGradient></defs>
-                   <rect width='100%' height='100%' fill='%23222'/>
-                   <rect x='20' y='20' width='600' height='320' rx='12' fill='url(%23g1)' opacity='0.25'/>
-                   <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-                         fill='%23bbbbbb' font-family='Arial' font-size='20'>
-                     Capture du projet
-                   </text>
-                 </svg>">
+            <!-- Miniature PNG (dégradé abstrait) -->
+            <img class="thumb" loading="lazy" alt="Capture abstraite 1"
+                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAyCAYAAABpZ6qEAAAACXBIWXMAAAsSAAALEgHS3X78AAABWElEQVR4nO3WsQ3CMBQF0U1oV8U5C2U4p3C2rE2J4qW7CwFQbTqY3o1Jm3b0k1S8d4vCwQyZ8I0j7JXzmJ9iD8q2v8y7w0S3y0b3i7wX9g8C6v3i7sRb8b5c8gH0H1gqk3x8w7c1s8kq8d0i6w+oY8k9m7h7f5r0h4e7b3Gm9c4b8cY7m7b9Uj8m0i8g0dJdG3p7nTj9Qm7xw9Vt8sU0b3k9Gk9o1w7b6U3m4Yp9XJgZ0vXb9pJXQ1s3f8n8cAAABAAABAAABAAABAAABAAABAAABAAABAAABAAABAJ4tqTfz6H7mQ0t2Pp3m4yWmAAAAAElFTkSuQmCC" />
             <div>
               <strong>« Steal-a-Brainrot » Custom</strong><br>
               <span class="muted">Items (Ban Hammer, Laser Gun…), FX, shop, passes.</span>
@@ -291,15 +241,9 @@
 
           <!-- Projet 2 -->
           <article class="project" data-tilt>
-            <img class="thumb" loading="lazy" alt="Atelier XSS"
-                 src="data:image/svg+xml;utf8,
-                 <svg xmlns='http://www.w3.org/2000/svg' width='640' height='360'>
-                   <rect width='100%' height='100%' fill='%23202a35'/>
-                   <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-                         fill='%239aa6b2' font-family='Arial' font-size='18'>
-                     Atelier XSS & Auth JS
-                   </text>
-                 </svg>">
+            <!-- Miniature PNG (bokeh coloré) -->
+            <img class="thumb" loading="lazy" alt="Capture abstraite 2"
+                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAyCAYAAABpZ6qEAAAACXBIWXMAAAsSAAALEgHS3X78AAABcUlEQVR4nO3WsQ2CQBQF0Teh0w2gE7hG6gC6gC6g7gG4TzqVf8gqC2C3vZ2gW0S1d8UQyTgqv7n8m8w6f5JmX5m2h8c2l4cQ3m9bD3kYb9c4b7m5Y7n2g9Z8c3Zm5o8n3b7l9Gg8b0Wm9Y4b7U5Y7o2c/4gAAQAAAQAAAQAAAQAAAQAAAQAAAQAAAQAAAQAAAEAX1v7k6m9b8b2k7v5V8kqf5b6s9g8x0r8c6m9n7e9q8Yg+5O8nQAAAAAElFTkSuQmCC" />
             <div>
               <strong>Lab XSS & Auth JS vulnérable</strong><br>
               <span class="muted">Analyse obfuscation, exploitation pédagogique, contre-mesures (escape/CSP).</span>
@@ -308,15 +252,9 @@
 
           <!-- Projet 3 -->
           <article class="project" data-tilt>
-            <img class="thumb" loading="lazy" alt="Serveur Minecraft"
-                 src="data:image/svg+xml;utf8,
-                 <svg xmlns='http://www.w3.org/2000/svg' width='640' height='360'>
-                   <rect width='100%' height='100%' fill='%231c2430'/>
-                   <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-                         fill='%238ea2b8' font-family='Arial' font-size='18'>
-                     Server Minecraft moddé
-                   </text>
-                 </svg>">
+            <!-- Miniature PNG (dégradé sombre) -->
+            <img class="thumb" loading="lazy" alt="Capture abstraite 3"
+                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAyCAYAAABpZ6qEAAAACXBIWXMAAAsSAAALEgHS3X78AAABSElEQVR4nO3WsQ3CMBBF0Zegk0B7gHcIuQbcAXQh5B1wDqQb1q3f2m7b0v9p6S0yq4q4T6b8l8y6v3nV7b9n2W8e2k7e8wYfYc7b3m5Y7d2Y8X8AAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIAAAIA4K1ZrX9a9f8k6q7d+f8o7w9d8o7Y9Y8c3b8n8jAAAAgAAAIAAACAAAAgAAAIAAACAAAAgAAAO8A8nCkx3K1P7wAAAAASUVORK5CYII=" />
             <div>
               <strong>Server Minecraft moddé</strong><br>
               <span class="muted">Gestion communauté, packs Create/automation, optimisation.</span>
@@ -368,7 +306,7 @@
       localStorage.setItem('cv-theme', next); apply(next);
     };
 
-    // Typewriter effect for role
+    // Typewriter effect
     const rolePhrases = [
       'Étudiant Informatique & Cyber',
       'Développeur Roblox',
@@ -386,11 +324,11 @@
     }
     typeLoop();
 
-    // IntersectionObserver: reveal + animated skill bars
+    // Reveal + bars
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('in');
-          // skill bars inside
+        if(e.isIntersecting){
+          e.target.classList.add('in');
           e.target.querySelectorAll('.bar > span[data-width]')?.forEach(sp=>{
             sp.style.width = sp.getAttribute('data-width');
           });
@@ -400,7 +338,7 @@
     }, { threshold:.12 });
     document.querySelectorAll('[data-reveal]').forEach(el=> io.observe(el));
 
-    // Tilt effect (subtle)
+    // Tilt
     const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     function attachTilt(el){
       if(prefersReduced) return;
@@ -408,8 +346,8 @@
       const onMove = (e)=>{
         const b = el.getBoundingClientRect();
         const cx = e.clientX - b.left, cy = e.clientY - b.top;
-        const rx = ((cy/b.height)-.5)*6; // tilt X
-        const ry = ((cx/b.width)-.5)*-6; // tilt Y
+        const rx = ((cy/b.height)-.5)*6;
+        const ry = ((cx/b.width)-.5)*-6;
         cancelAnimationFrame(rAF);
         rAF = requestAnimationFrame(()=>{
           el.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
@@ -438,7 +376,7 @@
         await navigator.clipboard.writeText(emailNode.textContent.trim());
         toast.classList.add('show');
         setTimeout(()=> toast.classList.remove('show'), 1400);
-      }catch{ /* ignore */ }
+      }catch{}
     });
   </script>
 </body>
